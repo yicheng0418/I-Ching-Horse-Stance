@@ -1,8 +1,13 @@
 # I-Ching-Horse-Stance
+**VERY IMPORTANT**
+need to install python-docx module
+# by using code:
+pip install python-docx
+
 I Ching Horse Stance
 本卦，指现状；
 变卦，指可能的发展路径
-need to install module docx
+
 数字起卦占卜方法：
 
 1）自己心里得有个问题，比如明天去考试能考及格吗，然后心里说出3组3位数，比如第一组365，第二组286，第三组168。第一组和第二组除以8，第三组数字除以6，求得它们的余数，卦由余数来确定。第一组是下卦，第二组上卦，第三组是变爻
