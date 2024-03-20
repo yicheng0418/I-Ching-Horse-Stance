@@ -24,7 +24,7 @@ def save_info_to_file(filename, gua_info):
 
 # 主程序
 
-def main():
+def second_main():
     file_path = '易经白话全文.docx'
     doc_text = read_docx(file_path)
 
@@ -43,25 +43,5 @@ def main():
         print("未找到共享的卦名文件。请先运行第一个脚本生成卦名。")
 
 if __name__ == "__main__":
-    main()
+    second_main()
 
-# if __name__ == "__main__":
-#     file_path = '易经白话全文.docx'
-#     doc_text = read_docx(file_path)
-
-#     while True:
-#         # 用户输入卦名
-#         gua_name = input("请输入您想要了解的卦名：").strip()
-
-#         # 搜索并显示结果
-#         gua_info = find_gua_info(doc_text, gua_name)
-#         if gua_info:
-#             print(gua_info)
-#             save_info_to_file("卦象信息.txt", gua_info)
-#         else:
-#             print("未找到相关卦的信息。")
-
-#         # 询问是否需要查询另一个卦象
-#         another_gua = input("是否需要另一个卦象的具体信息？(Y/N)：").strip().upper()
-#         if another_gua != 'Y':
-#             break
