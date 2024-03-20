@@ -1,6 +1,7 @@
 from docx import Document
 import random
 import datetime
+from detailhexagram import second_main
 
 # 定义六个爻位的阴阳符号
 YIN = "阴"
@@ -122,9 +123,9 @@ def generate_daily_hexagram(docx_path, gua_yao_mapping):
 
 def main():
     # 指定卦爻的docx文件路径
-    gua_yao_file_path = "卦爻.docx"  # 替换为实际的文件路径
+    gua_yao_file_path = r"E:\code\forcast\易经自动算命\卦爻.docx"  # 替换为实际的文件路径
     # 指定《易经卦辞.docx》的路径
-    docx_path = "易经卦辞.docx"
+    docx_path = r"E:\code\forcast\易经自动算命\易经卦辞.docx"
 
     # 读取卦爻信息
     gua_yao_mapping = read_gua_yao_from_docx(gua_yao_file_path)
@@ -196,7 +197,20 @@ def main():
     else:
         print("未生成卦名")
         
-     
+    # # 在 main() 函数的末尾添加以下代码
+    # with open("shared_gua_names.txt", "w", encoding="utf-8") as f:
+    #     f.write(f"{base_gua_name}\n{changing_gua_name}\n")
+        
+    # 在 main() 函数的末尾添加以下代码
+
+  
+        
 
 if __name__ == '__main__':
     main()
+
+    # 询问用户是否需要了解白话文解释
+    need_explanation = input("需要了解白话文解释吗？(y/n)：").strip().lower()
+    if need_explanation == 'y':
+        second_main()
+
