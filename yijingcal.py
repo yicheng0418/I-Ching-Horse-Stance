@@ -123,9 +123,9 @@ def generate_daily_hexagram(docx_path, gua_yao_mapping):
 
 def main():
     # 指定卦爻的docx文件路径
-    gua_yao_file_path = r"E:\code\forcast\易经自动算命\卦爻.docx"  # 替换为实际的文件路径
+    gua_yao_file_path = "卦爻.docx"  # 替换为实际的文件路径
     # 指定《易经卦辞.docx》的路径
-    docx_path = r"E:\code\forcast\易经自动算命\易经卦辞.docx"
+    docx_path = "易经卦辞.docx"    # 替换为实际的文件路径
 
     # 读取卦爻信息
     gua_yao_mapping = read_gua_yao_from_docx(gua_yao_file_path)
