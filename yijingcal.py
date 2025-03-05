@@ -45,7 +45,6 @@ HOUTIAN_BAGUA_MAPPING = {
     9: "离"
 }
 
-
 # 读取docx文件中的卦爻信息
 def read_gua_yao_from_docx(file_path):
     doc = Document(file_path)
@@ -60,7 +59,6 @@ def read_gua_yao_from_docx(file_path):
     return gua_yao_mapping
 
 # 根据阴阳爻位获取卦名
-
 def get_gua_name_by_yao(gua_yao_mapping, hexagram):
     """根据爻位列表获取六十四卦的卦名"""
     for gua_name, gua_yao in gua_yao_mapping.items():
@@ -133,7 +131,6 @@ def generate_daily_hexagram_lunar(docx_path, gua_yao_mapping):
         "changing_gua_content": changing_gua_content
     }
 
-
 # 提取卦辞内容
 def extract_guaci_content(docx_path, gua_name):
     doc = Document(docx_path)
@@ -146,7 +143,6 @@ def extract_guaci_content(docx_path, gua_name):
             break
 
     return guaci_content
-
 
 # 根据输入的数字计算变爻位置
 def calculate_changing_line(input_values):
@@ -241,9 +237,7 @@ def number_to_hexagram_from_user_input(docx_path, gua_yao_mapping):
         "changing_gua": changing_gua_name,
         "changing_gua_content": changing_gua_content,
     }
-
-
-
+    
 def main():
     # 指定卦爻的docx文件路径
     gua_yao_file_path = r"E:\code\forcast\易经自动算命\卦爻.docx"  # 替换为实际的文件路径
@@ -269,9 +263,8 @@ def main():
             base_gua_name_simplified = daily_gua["base_gua"].rstrip('卦')
             changing_gua_name_simplified = daily_gua["changing_gua"].rstrip('卦')
             f.write(f"{base_gua_name_simplified}\n{changing_gua_name_simplified}\n")
-    
-    
-    elif choice == "2":        
+
+    elif choice == "2":
         # 询问用户想要了解的内容
         user_input = input("您想要问什么？")
 
@@ -280,6 +273,7 @@ def main():
         base_gua_name = get_gua_name_by_yao(gua_yao_mapping, base_hexagram)
         print("本卦：", base_hexagram)
         print("本卦卦名：", base_gua_name)
+
         # 提取本卦卦辞内容
         base_gua_content = extract_guaci_content(docx_path, base_gua_name)
         if base_gua_content:
@@ -287,7 +281,7 @@ def main():
             print("--------------------")
         else:
             print(f"未找到名为'{base_gua_name}'的卦辞")
-        
+
         # 生成变爻位
         changing_line, changing_line_index = generate_changing_line_new(base_hexagram)
         print("变爻位：第", changing_line_index+1, "爻")
@@ -305,20 +299,23 @@ def main():
             print("--------------------")
         else:
             print(f"未找到名为'{changing_gua_name}'的卦辞")
-       
-            # 写入卦名到文本文件
+
+        # 写入卦名到文本文件
+        if base_gua_name and changing_gua_name:
+            with open("shared_gua_names.txt", "w", encoding="utf-8") as f:
+                base_gua_name_simplified = base_gua_name.rstrip('卦')
+                changing_gua_name_simplified = changing_gua_name.rstrip('卦')
+                f.write(f"{base_gua_name_simplified}\n{changing_gua_name_simplified}\n")
+
+            # Writing to the signature text file
             with open("签文.txt", "w", encoding="utf-8") as f:
                 f.write(f"本卦卦名：{base_gua_name}\n")
                 f.write(f"本卦卦辞：{base_gua_content}\n")
                 f.write(f"变卦卦名：{changing_gua_name}\n")
-                f.write(f"变卦卦辞：{changing_gua_content}")
-                
-            with open("shared_gua_names.txt", "w", encoding="utf-8") as f:
-                base_gua_name_simplified = base_gua_name.rstrip('卦')
-                changing_gua_name_simplified = changing_gua_name.rstrip('卦')
-                f.write(f"{base_gua_name_simplified}\n{changing_gua_name_simplified}\n")  
-                
-                
+                f.write(f"变卦卦辞：{changing_gua_content}\n")
+        else:
+            print("错误：无效的卦名，未写入文件。")
+
     elif choice == "3":
         # 梅花数字占
         base_gua_info = number_to_hexagram_from_user_input(docx_path, gua_yao_mapping) # 获取六爻卦信息
@@ -337,12 +334,12 @@ def main():
                 else:
                     print("Error: Missing valid hexagram names.")
         
-            # Writing to the signature text file
-            with open("签文.txt", "w", encoding="utf-8") as f:
-                f.write(f"本卦卦名：{base_gua_info['base_gua']}\n")
-                f.write(f"本卦卦辞：{base_gua_info['base_gua_content']}\n")
-                f.write(f"变卦卦名：{base_gua_info['changing_gua']}\n")
-                f.write(f"变卦卦辞：{base_gua_info['changing_gua_content']}\n")
+                # Writing to the signature text file
+                with open("签文.txt", "w", encoding="utf-8") as f:
+                    f.write(f"本卦卦名：{base_gua_info['base_gua']}\n")
+                    f.write(f"本卦卦辞：{base_gua_info['base_gua_content']}\n")
+                    f.write(f"变卦卦名：{base_gua_info['changing_gua']}\n")
+                    f.write(f"变卦卦辞：{base_gua_info['changing_gua_content']}\n")
     else:
         print("未生成卦名")
         
@@ -355,4 +352,3 @@ if __name__ == '__main__':
     need_explanation = input("需要了解白话文解释吗？(y/n)：").strip().lower()
     if need_explanation == 'y':
         second_main()
-
