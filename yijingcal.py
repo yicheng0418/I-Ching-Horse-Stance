@@ -4,6 +4,7 @@ import datetime
 from detailhexagram import second_main
 from lunarDateBaziCal import gan, zhi, lunar_months, lunar_days, gan_wuxing, zhi_wuxing
 from lunarDateBaziCal import get_zodiac, get_ganzhi, get_day_ganzhi, get_hour_ganzhi
+from bone_Weight_Cal import third_main
 
 # 定义六个爻位的阴阳符号
 YIN = "阴"
@@ -237,6 +238,28 @@ def number_to_hexagram_from_user_input(docx_path, gua_yao_mapping):
         "changing_gua": changing_gua_name,
         "changing_gua_content": changing_gua_content,
     }
+
+def ask_for_bone_weight_calculation():
+    """
+    询问用户是否需要进行称骨算法计算
+    """
+    proceed = input("需要进行称骨算法吗？(y/n): ").strip().lower()
+    
+    if proceed == "y":
+        # 引入称骨算法计算的代码
+        # 假设您在 `bone_Weight_Cal.py` 中已经定义了 `calculate_bone_weight` 函数
+        # 从 `bone_Weight_Cal.py` 中导入函数（确保文件路径正确）
+        weight_sum = third_main()
+        # 返回计算结果
+        return weight_sum
+    
+        # Check if the weight_sum is None (in case of an error in third_main)
+        if weight_sum is not None:
+            print(f"计算得到的称骨重量为：{weight_sum}两")
+       
+    else:
+        print("不进行称骨算法。")
+
     
 def main():
     # 指定卦爻的docx文件路径
@@ -249,7 +272,7 @@ def main():
 
 
     # 询问用户想要的功能
-    choice = input("请选择功能：\n1-生成每日一卦\n2-所求应物占卦占卜\n3-梅花数字占\n")
+    choice = input("请选择功能：\n1-生成每日一卦\n2-所求应物占卦占卜\n3-梅花数字占\n4-袁天罡称骨法\n")
  
     if choice == "1":
         # 生成每日一卦
@@ -340,15 +363,34 @@ def main():
                     f.write(f"本卦卦辞：{base_gua_info['base_gua_content']}\n")
                     f.write(f"变卦卦名：{base_gua_info['changing_gua']}\n")
                     f.write(f"变卦卦辞：{base_gua_info['changing_gua_content']}\n")
+    
+    elif choice == "4":
+        #袁天罡称骨法
+        weight_sum = ask_for_bone_weight_calculation()
+        
+        if weight_sum is not None:  # 检查是否成功计算出称骨重量
+            print(f"计算得到的称骨重量为：{weight_sum}两\n")
+
+            # 将称骨重量写入文件
+            try:
+                with open("shared_gua_names.txt", "w", encoding="utf-8") as f:
+                    f.write(f"称骨重量：{weight_sum}两\n")
+
+                with open("签文.txt", "w", encoding="utf-8") as f:
+                    f.write(f"称骨重量：{weight_sum}两\n")
+            except Exception as e:
+                print(f"写入文件出错: {e}")
     else:
         print("未生成卦名")
-        
+    
+    
+    # 询问用户是否需要了解白话文解释, 除非用户选择了称骨算法
+    if choice != "4":
+        need_explanation = input("需要了解白话文解释吗？(y/n)：").strip().lower()
+        if need_explanation == 'y':
+            second_main()       
 
 
 if __name__ == '__main__':
     main()
-           
-    # 询问用户是否需要了解白话文解释
-    need_explanation = input("需要了解白话文解释吗？(y/n)：").strip().lower()
-    if need_explanation == 'y':
-        second_main()
+
