@@ -1,5 +1,4 @@
 import datetime
-import math
 
 # 干支纪年、生肖和月份名称
 gan = "甲乙丙丁戊己庚辛壬癸"
@@ -27,10 +26,13 @@ def get_month_ganzhi(year_ganzhi, month):
     year_stem = year_ganzhi[0]  # 获取年柱的天干
     stem_index = gan.index(year_stem)  # 天干的位置
     # 月柱是基于年柱的天干推算的
-    month_offset = (month + 1) % 12  # 根据月份推算偏移
-    month_stem = gan[(stem_index + month_offset) % 10]  # 通过天干的偏移来计算
-    month_zhi = zhi[(month + 1) % 12]  # 地支的计算方法
+    # 正确计算月干
+    month_stem_index = (stem_index * 2 + month -1 ) % 10
+    month_stem = gan[month_stem_index]
+    # 正确计算月支
+    month_zhi = zhi[(month + 1)%12]
     return month_stem + month_zhi
+
 
 # 计算生肖（根据地支）
 def get_zodiac(year):
