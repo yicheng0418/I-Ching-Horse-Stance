@@ -13,11 +13,24 @@ zhi_wuxing = {"子": "水", "丑": "土", "寅": "木", "卯": "木", "辰": "�
 
 # 计算天干地支
 def get_ganzhi(year):
-    base_year = 1900
+    base_year = 1900  # 基准年为1900年，庚子年
     year_diff = year - base_year
-    gan_index = (year_diff + 6) % 10  # 天干
-    zhi_index = (year_diff + 8) % 12  # 地支
+    
+    # 1900年为庚子年，所以天干和地支的偏移应该是庚子（庚为7，子为0）
+    gan_index = (year_diff + 6) % 10  # 计算天干位置，+6是因为庚子年从庚开始
+    zhi_index = (year_diff) % 12  # 计算地支位置，+0是因为庚子年从子开始
+    
     return gan[gan_index] + zhi[zhi_index]
+
+# 计算月柱
+def get_month_ganzhi(year_ganzhi, month):
+    year_stem = year_ganzhi[0]  # 获取年柱的天干
+    stem_index = gan.index(year_stem)  # 天干的位置
+    # 月柱是基于年柱的天干推算的
+    month_offset = (month + 1) % 12  # 根据月份推算偏移
+    month_stem = gan[(stem_index + month_offset) % 10]  # 通过天干的偏移来计算
+    month_zhi = zhi[(month + 1) % 12]  # 地支的计算方法
+    return month_stem + month_zhi
 
 # 计算生肖（根据地支）
 def get_zodiac(year):
@@ -42,11 +55,9 @@ def get_day_ganzhi(date):
 
 # 计算时柱的干支
 def get_hour_ganzhi(hour, day_gan):
-    # 时柱对应的时支
     time_stems = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"]
     time_gans = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"]
 
-    # 判断时支
     if 23 <= hour < 1:
         time_stem = time_stems[0]
     elif 1 <= hour < 3:
@@ -72,7 +83,6 @@ def get_hour_ganzhi(hour, day_gan):
     elif 21 <= hour < 23:
         time_stem = time_stems[11]
 
-    # 天干对应推算方法
     stem_index = (time_gans.index(day_gan) + (hour // 2)) % 10
     return time_gans[stem_index], time_stem
 
@@ -82,7 +92,7 @@ year, month, day, hour = current_time.year, current_time.month, current_time.day
 
 # 计算年柱、月柱、日柱、时柱
 year_ganzhi = get_ganzhi(year)
-month_ganzhi = get_ganzhi(year)[0] + zhi[(month + 1) % 12]  # 月柱是根据年柱推算的
+month_ganzhi = get_month_ganzhi(year_ganzhi, month)  # 月柱是根据年柱推算的
 day_ganzhi = get_day_ganzhi(current_time)
 hour_ganzhi = get_hour_ganzhi(hour, day_ganzhi[0])
 
