@@ -1,8 +1,8 @@
 # I-Ching-Horse-Stance
 **VERY IMPORTANT**
-need to install python-docx module
+need to install basic python-docx module
 # by using code:
-pip install python-docx
+pip install python-docx, lunardate
 
 I Ching Horse Stance
 本卦，指现状；
@@ -16,7 +16,7 @@ I Ching Horse Stance
 
 注：
 袁天罡称骨法建议使用阳历，sample：2025 03 11 15/g
-"/g"一定要有
+"/g"一定要有，没有则用阴历计算
 
 释：
 可以直接使用，
